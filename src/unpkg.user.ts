@@ -1,5 +1,6 @@
 (async function () {
-    if (location.href.match("https://www.npmjs.com/package/*")) { // @@match https://www.npmjs.com/package/*
+    if (location.href.match("https://www.npmjs.com/package/*")) {
+        // @@match https://www.npmjs.com/package/*
         let pkgTitle = document.querySelector("#main h2:first-of-type");
         if (pkgTitle) {
             let [, , ...pkgRaw] = location.pathname.split(/[\/\\]/);
@@ -14,7 +15,8 @@
             anchorElement.appendChild(imageElement);
             pkgTitle.appendChild(anchorElement);
         }
-    } else if (location.href.match("https://www.unpkg.com/browse/*")) { // @@match https://www.unpkg.com/browse/*
+    } else if (location.href.match("https://www.unpkg.com/browse/*")) {
+        // @@match https://www.unpkg.com/browse/*
         let pkgTitle = document.querySelector("header nav");
         if (pkgTitle) {
             let originalStrong = pkgTitle.querySelector("strong");
