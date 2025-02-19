@@ -24,7 +24,7 @@
                 let strongElement = document.createElement("strong");
                 strongElement.textContent = pkgTitle.textContent;
                 let anchorElement = document.createElement("a");
-                anchorElement.href = `https://npmjs.com/${pkgTitle.textContent}/`;
+                anchorElement.href = `https://npmjs.com/package/${pkgTitle.textContent}/`;
                 anchorElement.appendChild(strongElement);
                 anchorElement.style.textDecorationStyle = "dotted";
                 anchorElement.style.textDecorationLine = "underline";
