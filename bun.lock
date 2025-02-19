@@ -9,7 +9,7 @@
         "userscript-meta": "^1.0.1",
       },
       "devDependencies": {
-        "@types/bun": "latest",
+        "@types/bun": "^1.2.2",
       },
       "peerDependencies": {
         "typescript": "^5.0.0",

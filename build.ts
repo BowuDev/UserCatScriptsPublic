@@ -1,3 +1,4 @@
+import type * as BunType from "bun";
 import * as fs from "node:fs";
 import * as path from "node:path";
 
@@ -5,6 +6,17 @@ const userscript = require("userscript-meta");
 
 let files: string[] = fs.readdirSync("src");
 let processedFiles: string[] = [];
+
+// @ts-ignore
+let defaultBunBuildOpts: BunType.BuildConfig = {
+    target: "browser",
+    minify: {
+        syntax: true,
+        whitespace: true,
+        identifiers: true,
+    },
+    footer: "// Built with love, by BowuDev",
+};
 
 async function process(file: string) {
     let outdir = path.join(".", "build");
@@ -14,10 +26,9 @@ async function process(file: string) {
         scriptOut = path.resolve(scriptOut_joined),
         metaFile_joined = path.join(".", "src", file), metaFile = path.resolve(metaFile_joined);
     await Bun.build({
+        ...defaultBunBuildOpts,
         entrypoints: [scriptSrc],
-        target: "browser",
         outdir: outdir,
-        minify: true,
         banner: userscript.stringify(await require(metaFile).default(scriptSrc, scriptOut, metaFile, processedFiles)),
     });
     console.log("Built", scriptSrc_joined, "to", scriptOut_joined);
@@ -43,10 +54,9 @@ await (async function () {
         scriptOut = path.resolve(scriptOut_joined),
         metaFile_joined = path.join(".", "src", file), metaFile = path.resolve(metaFile_joined);
     await Bun.build({
+        ...defaultBunBuildOpts,
         entrypoints: [scriptSrc],
-        target: "browser",
         outdir: outdir,
-        minify: true,
         banner: userscript.stringify(await require(metaFile).default(scriptSrc, scriptOut, metaFile, processedFiles)).replaceAll(/(\/\/ ==\/?)UserScript(==)/g, "$1UserSubscribe$2"),
     });
     console.log("Built", scriptSrc_joined, "to", scriptOut_joined);
