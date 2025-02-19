@@ -1,0 +1,19 @@
+{
+  "name": "usercatscriptspublic",
+  "module": "build.ts",
+  "type": "module",
+  "scripts": {
+    "build": "bun build.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "datauri": "^4.1.0",
+    "sharp": "^0.33.5",
+    "userscript-meta": "^1.0.1"
+  }
+}
