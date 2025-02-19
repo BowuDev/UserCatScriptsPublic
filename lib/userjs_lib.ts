@@ -46,8 +46,8 @@ export default async function process_userjs_meta(script_file: string, script_ou
         version: `${date.getUTCFullYear()}.${date.getUTCMonth()}.${date.getUTCDate()}.${date.getUTCHours()}`,
         namespace: "https://github.com/BowuDev/UserCatScriptsPublic",
         homepageURL: "https://github.com/BowuDev/UserCatScriptsPublic",
-        downloadURL: `https://github.com/BowuDev/UserCatScriptsPublic/raw/refs/heads/main/out/` + path.basename(script_output_file),
-        updateURL: `https://github.com/BowuDev/UserCatScriptsPublic/raw/refs/heads/main/out/` + path.basename(script_output_file),
+        downloadURL: `https://github.com/BowuDev/UserCatScriptsPublic/raw/refs/heads/main/build/${path.basename(script_output_file)}`,
+        updateURL: `https://github.com/BowuDev/UserCatScriptsPublic/raw/refs/heads/main/build/${path.basename(script_output_file)}`,
         supportURL: "https://github.com/BowuDev/UserCatScriptsPublic/issues",
     };
     return Object.assign(custom_meta, found_meta, extra_meta);

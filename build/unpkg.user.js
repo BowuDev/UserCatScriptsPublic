@@ -5,8 +5,8 @@
 // @version 2025.1.19.18
 // @namespace https://github.com/BowuDev/UserCatScriptsPublic
 // @homepageURL https://github.com/BowuDev/UserCatScriptsPublic
-// @downloadURL https://github.com/BowuDev/UserCatScriptsPublic/raw/refs/heads/main/out/unpkg.user.js
-// @updateURL https://github.com/BowuDev/UserCatScriptsPublic/raw/refs/heads/main/out/unpkg.user.js
+// @downloadURL https://github.com/BowuDev/UserCatScriptsPublic/raw/refs/heads/main/build/unpkg.user.js
+// @updateURL https://github.com/BowuDev/UserCatScriptsPublic/raw/refs/heads/main/build/unpkg.user.js
 // @supportURL https://github.com/BowuDev/UserCatScriptsPublic/issues
 // ==/UserScript==
 
