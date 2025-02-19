@@ -3,7 +3,7 @@
 // @description Adds a simple image-link to UNPKG for NPMJS packages.
 // @description Example: https://www.npmjs.com/package/react => https://www.unpkg.com/react/
 // @match https://www.npmjs.com/package/*
-// @version 2025.1.19.17
+// @version 2025.1.19.18
 // @namespace https://github.com/BowuDev/UserCatScriptsPublic
 // @homepageURL https://github.com/BowuDev/UserCatScriptsPublic
 // @downloadURL https://github.com/BowuDev/UserCatScriptsPublic/raw/refs/heads/main/out/unpkg.user.js

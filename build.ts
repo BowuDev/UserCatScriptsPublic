@@ -47,7 +47,7 @@ await (async function () {
         target: "browser",
         outdir: outdir,
         minify: true,
-        banner: userscript.stringify(await require(metaFile).default(scriptSrc, scriptOut, metaFile, processedFiles)),
+        banner: userscript.stringify(await require(metaFile).default(scriptSrc, scriptOut, metaFile, processedFiles)).replaceAll(/(\/\/ ==\/?)UserScript(==)/g, "$1UserSubscribe$2"),
     });
     console.log("Built", scriptSrc_joined, "to", scriptOut_joined);
     processedFiles.push(scriptOut_joined);
