@@ -42,12 +42,13 @@ export default async function process_userjs_meta(script_file: string, script_ou
     if (Array.isArray(found_meta["grant"])) found_meta["grant"] = [...new Set(found_meta["grant"])];
     if (Array.isArray(custom_meta["grant"])) custom_meta["grant"] = [...new Set(custom_meta["grant"])];
 
-    return Object.assign(custom_meta, found_meta, {
+    let extra_meta: { [key: string]: any } = {
         version: `${date.getUTCFullYear()}.${date.getUTCMonth()}.${date.getUTCDate()}.${date.getUTCHours()}`,
         namespace: "https://github.com/BowuDev/UserCatScriptsPublic",
         homepageURL: "https://github.com/BowuDev/UserCatScriptsPublic",
-        downloadURL: "https://github.com/BowuDev/UserCatScriptsPublic/raw/out/" + path.basename(script_output_file),
-        updateURL: "https://github.com/BowuDev/UserCatScriptsPublic/raw/out/" + path.basename(script_output_file),
+        downloadURL: `https://github.com/BowuDev/UserCatScriptsPublic/raw/refs/heads/main/out/` + path.basename(script_output_file),
+        updateURL: `https://github.com/BowuDev/UserCatScriptsPublic/raw/refs/heads/main/out/` + path.basename(script_output_file),
         supportURL: "https://github.com/BowuDev/UserCatScriptsPublic/issues",
-    });
+    };
+    return Object.assign(custom_meta, found_meta, extra_meta);
 }

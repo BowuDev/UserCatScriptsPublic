@@ -21,17 +21,34 @@ async function process(file: string) {
         banner: userscript.stringify(await require(metaFile).default(scriptSrc, scriptOut, metaFile, processedFiles)),
     });
     console.log("Built", scriptSrc_joined, "to", scriptOut_joined);
-    processedFiles.push(file);
+    processedFiles.push(scriptOut_joined);
 }
 
 let indexMetaTS = "";
 for (let i = 0; i < files.length; i++) {
     let file = files[i];
     if (!file.endsWith(".meta.ts")) continue;
-    if (file === "index.meta.ts") {
+    if (file === "user.sub.meta.ts") {
         indexMetaTS = file;
         continue;
     }
     await process(file);
 }
-await process(indexMetaTS);
+await (async function () {
+    let file = indexMetaTS;
+    let outdir = path.join(".", "build");
+    let scriptSrc_joined = path.join(".", "src", file.replace(/\.meta\.ts$/, ".ts")),
+        scriptSrc = path.resolve(scriptSrc_joined),
+        scriptOut_joined = path.join(outdir, file.replace(/\.meta\.ts$/, ".js")),
+        scriptOut = path.resolve(scriptOut_joined),
+        metaFile_joined = path.join(".", "src", file), metaFile = path.resolve(metaFile_joined);
+    await Bun.build({
+        entrypoints: [scriptSrc],
+        target: "browser",
+        outdir: outdir,
+        minify: true,
+        banner: userscript.stringify(await require(metaFile).default(scriptSrc, scriptOut, metaFile, processedFiles)),
+    });
+    console.log("Built", scriptSrc_joined, "to", scriptOut_joined);
+    processedFiles.push(scriptOut_joined);
+})();
