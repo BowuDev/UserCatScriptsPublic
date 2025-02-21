@@ -43,6 +43,7 @@ export default async function process_userjs_meta(script_file: string, script_ou
     if (Array.isArray(custom_meta["grant"])) custom_meta["grant"] = [...new Set(custom_meta["grant"])];
 
     let extra_meta: { [key: string]: any } = {
+        name: "[BOWUDEV] " + custom_meta.name,
         version: `${date.getUTCFullYear()}.${date.getUTCMonth()}.${date.getUTCDate()}.${date.getUTCHours()}`,
         namespace: "https://github.com/BowuDev/UserCatScriptsPublic",
         homepageURL: "https://github.com/BowuDev/UserCatScriptsPublic",

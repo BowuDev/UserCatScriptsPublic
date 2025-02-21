@@ -1,35 +1,59 @@
+import {XM_addMatch} from "macros" with {type: "macro"};
+
 (async function () {
-    if (location.href.match("https://www.npmjs.com/package/*")) {
-        // @@match https://www.npmjs.com/package/*
-        let pkgTitle = document.querySelector("#main h2:first-of-type");
-        if (pkgTitle) {
-            let [, , ...pkgRaw] = location.pathname.split(/[\/\\]/);
-            let pkg = pkgRaw.join("/");
-            let anchorElement = document.createElement("a");
-            anchorElement.href = `https://www.unpkg.com/${pkg}/`;
-            anchorElement.classList.add("flex");
-            anchorElement.style.paddingLeft = "1rem";
-            let imageElement = document.createElement("img");
-            imageElement.src = "https://www.unpkg.com/favicon.ico";
-            imageElement.height = 20;
-            anchorElement.appendChild(imageElement);
-            pkgTitle.appendChild(anchorElement);
+    const NPM_PACKAGE_URL = "https://www.npmjs.com/package/";
+    const UNPKG_BROWSE_URL = "https://www.unpkg.com/browse/";
+    const UNPKG_BASE_URL = "https://www.unpkg.com/";
+    const UNPKG_FAVICON_URL = "https://www.unpkg.com/favicon.ico";
+    XM_addMatch("https://www.unpkg.com/browse/*");
+    XM_addMatch("https://www.npmjs.com/package/*");
+    // Utility to create an anchor element
+    const createAnchorElement = (href: string, additionalStyles: Record<string, string> = {}): HTMLAnchorElement => {
+        const anchor = document.createElement("a");
+        anchor.href = href;
+        Object.assign(anchor.style, additionalStyles);
+        return anchor;
+    };
+
+    // Utility to create an image element
+    const createImageElement = (src: string, height: number): HTMLImageElement => {
+        const image = document.createElement("img");
+        image.src = src;
+        image.height = height;
+        return image;
+    };
+
+    // Check if the page is an NPM package page
+    if (location.href.match(NPM_PACKAGE_URL)) {
+        console.log("Detected NPM_PACKAGE_URL page, adding favicon and link to UNPKG.");
+        const packageTitleElement = document.querySelector("#main h2:first-of-type");
+        if (packageTitleElement) {
+            const [, , ...packageRaw] = location.pathname.split(/[\/\\]/);
+            const packagePath = packageRaw.join("/");
+            const anchor = createAnchorElement(`${UNPKG_BASE_URL}${packagePath}/`, {paddingLeft: "1rem"});
+            anchor.classList.add("flex");
+            const image = createImageElement(UNPKG_FAVICON_URL, 20);
+            anchor.appendChild(image);
+            packageTitleElement.appendChild(anchor);
         }
-    } else if (location.href.match("https://www.unpkg.com/browse/*")) {
-        // @@match https://www.unpkg.com/browse/*
-        let pkgTitle = document.querySelector("header nav");
-        if (pkgTitle) {
-            let originalStrong = pkgTitle.querySelector("strong");
+    }
+
+    // Check if the page is an UNPKG browse page
+    else if (location.href.match(UNPKG_BROWSE_URL)) {
+        console.log("Detected UNPKG_BROWSE_URL page, adding link to NPM.");
+        const packageTitleElement = document.querySelector("header nav");
+        if (packageTitleElement) {
+            const originalStrong = packageTitleElement.querySelector("strong");
             if (originalStrong) {
-                let strongElement = document.createElement("strong");
-                strongElement.textContent = pkgTitle.textContent;
-                let anchorElement = document.createElement("a");
-                anchorElement.href = `https://npmjs.com/package/${pkgTitle.textContent}/`;
-                anchorElement.appendChild(strongElement);
-                anchorElement.style.textDecorationStyle = "dotted";
-                anchorElement.style.textDecorationLine = "underline";
-                anchorElement.style.color = "inherit";
-                originalStrong.replaceWith(anchorElement);
+                const anchor = createAnchorElement(`${NPM_PACKAGE_URL}${packageTitleElement.textContent}/`, {
+                    textDecorationStyle: "dotted",
+                    textDecorationLine: "underline",
+                    color: "inherit",
+                });
+                const strong = document.createElement("strong");
+                strong.textContent = packageTitleElement.textContent || ""; // Ensure non-null textContent
+                anchor.appendChild(strong);
+                originalStrong.replaceWith(anchor);
             }
         }
     }

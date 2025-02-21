@@ -6,14 +6,21 @@
     "build": "bun build.ts"
   },
   "devDependencies": {
-    "@types/bun": "^1.2.2"
+    "@types/bun": "^1.2.2",
+    "@types/lodash": "^4.17.15"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.7.3"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.5.0",
+    "@types/underscore": "^1.13.0",
+    "@typescript-eslint/typescript-estree": "^8.24.1",
     "datauri": "^4.1.0",
+    "itty-time": "^1.0.6",
+    "lodash": "^4.17.21",
     "sharp": "^0.33.5",
+    "underscore": "^1.13.7",
     "userscript-meta": "^1.0.1"
   }
 }

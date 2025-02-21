@@ -1,6 +1,7 @@
 import type * as BunType from "bun";
 import * as fs from "node:fs";
 import * as path from "node:path";
+import {convertToUserConfig} from "./lib/user_config.ts";
 
 const userscript = require("userscript-meta");
 
@@ -24,12 +25,20 @@ async function process(file: string) {
         scriptSrc = path.resolve(scriptSrc_joined),
         scriptOut_joined = path.join(outdir, file.replace(/\.meta\.ts$/, ".user.js")),
         scriptOut = path.resolve(scriptOut_joined),
-        metaFile_joined = path.join(".", "src", file), metaFile = path.resolve(metaFile_joined);
+        metaFile_joined = path.join(".", "src", file), metaFile = path.resolve(metaFile_joined),
+        configFile_joined = path.join(".", "src", file.replace(/\.meta\.ts$/, ".config.ts")),
+        configFile = path.resolve(configFile_joined);
+    let banner: string[] = [userscript.stringify(await require(metaFile).default(scriptSrc, scriptOut, metaFile, processedFiles))];
+    if (fs.existsSync(configFile)) {
+        let userConfig = require(configFile).default;
+        if (typeof userConfig === "function") userConfig = await userConfig();
+        banner.push(convertToUserConfig(userConfig));
+    }
     await Bun.build({
         ...defaultBunBuildOpts,
         entrypoints: [scriptSrc],
         outdir: outdir,
-        banner: userscript.stringify(await require(metaFile).default(scriptSrc, scriptOut, metaFile, processedFiles)),
+        banner: banner.join("\n") + (banner.length > 1 ? "\n" : ""),
     });
     console.log("Built", scriptSrc_joined, "to", scriptOut_joined);
     processedFiles.push(scriptOut_joined);
